@@ -1,0 +1,61 @@
+---
+import { site } from '../data/site';
+const year = 2026; // bump manually; avoids a build-time-dependent diff
+---
+
+<footer class="foot">
+  <div class="page foot__inner">
+    <p class="foot__note">
+      {site.shortName} · {site.location} · <a href={`mailto:${site.email}`}
+        >{site.email}</a
+      >
+    </p>
+    <p class="foot__note foot__meta">
+      <a href={site.links.github}>GitHub</a>
+      <span aria-hidden="true">·</span>
+      <a href={site.links.linkedin}>LinkedIn</a>
+      <span aria-hidden="true">·</span>
+      <a href={site.links.cv}>CV</a>
+      <span aria-hidden="true">·</span>
+      <span>© {year}</span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    border-top: 1px solid var(--rule);
+    padding-block: 2rem 2.75rem;
+    margin-top: 1rem;
+  }
+
+  .foot__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .foot__note {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--ink-faint);
+    max-width: none;
+  }
+
+  .foot__meta {
+    display: flex;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+  }
+
+  .foot__note a {
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  .foot__note a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,164 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const work = await getCollection('work', ({ data }) => data.published);
+  return work.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, role, period, org, tags, links } = entry.data;
+
+// Only show links that have been filled in — placeholder '#' hrefs stay hidden
+// so an unfinished citation never ships as a dead link.
+const realLinks = links.filter((link) => link.href && link.href !== '#');
+
+// Same hue the card for this entry uses on the index, so clicking through
+// feels continuous rather than landing somewhere unrelated.
+const hue = `var(--c${((entry.data.order - 1) % 4) + 1})`;
+---
+
+<Base title={title} description={summary}>
+  <article style={`--page-accent: ${hue}`}>
+    <header class="page head">
+      <p class="head__back"><a href="/work/">← All work</a></p>
+      <h1>{title}</h1>
+      <p class="head__summary">{summary}</p>
+      <p class="head__meta">
+        <span class="head__org">{org}</span>
+        {role} · {period}
+      </p>
+      <ul class="head__tags">
+        {tags.map((tag) => <li>{tag}</li>)}
+      </ul>
+      {
+        realLinks.length > 0 && (
+          <ul class="head__links">
+            {realLinks.map((link) => (
+              <li>
+                <a href={link.href}>{link.label} →</a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    <div class="page section body">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .head {
+    padding-block: 2.25rem 2.25rem;
+  }
+
+  /* The generic .section top padding leaves a chasm under the header rule
+     on these pages, where the header is already doing the separating. */
+  .body {
+    padding-top: 2.25rem;
+  }
+
+  .body :global(.prose > h2:first-child) {
+    margin-top: 0;
+  }
+
+  .head__back {
+    font-size: 0.86rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .head__back a {
+    color: var(--ink-faint);
+    text-decoration: none;
+  }
+  .head__back a:hover {
+    color: var(--accent);
+  }
+
+  .head {
+    position: relative;
+  }
+
+  /* Hue wash bleeding down from the top of the page. */
+  .head::after {
+    content: '';
+    position: absolute;
+    inset: -3rem 0 auto 0;
+    height: 330px;
+    background: radial-gradient(
+      70% 100% at 18% 0%,
+      color-mix(in srgb, var(--page-accent) 15%, transparent),
+      transparent 70%
+    );
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .head h1 {
+    color: var(--page-accent);
+  }
+
+  .head__summary {
+    font-size: 1.08rem;
+    color: var(--ink-soft);
+    margin: 1rem 0 1.1rem;
+    max-width: 64ch;
+  }
+
+  .head__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    font-size: 0.87rem;
+    color: var(--ink-faint);
+    margin: 0 0 1rem;
+  }
+
+  .head__org {
+    font-size: 0.72rem;
+    font-weight: 650;
+    color: var(--ink);
+    background: var(--bg-sunken);
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 0.14rem 0.6rem;
+  }
+
+  .head__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .head__tags li {
+    font-size: 0.74rem;
+    color: var(--ink-faint);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.14rem 0.55rem;
+  }
+
+  .head__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    list-style: none;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    font-size: 0.92rem;
+  }
+</style>

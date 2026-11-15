@@ -1,0 +1,136 @@
+---
+import { site } from '../data/site';
+
+const path = Astro.url.pathname;
+const items = [
+  { href: '/', label: 'Home' },
+  { href: '/work/', label: 'Work' },
+  { href: '/research/', label: 'Research' },
+];
+
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+---
+
+<header class="nav">
+  <div class="page nav__inner">
+    <a class="nav__brand" href="/">{site.shortName}</a>
+    <nav aria-label="Primary">
+      <ul class="nav__list">
+        {
+          items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="nav__cv" href={site.links.cv}>CV</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    border-bottom: 1px solid var(--rule);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(180%) blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 58px;
+    flex-wrap: wrap;
+  }
+
+  .nav__brand {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .nav__list {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav__list a {
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding-bottom: 2px;
+    transition: color 0.18s var(--ease);
+  }
+
+  .nav__list a:hover {
+    color: var(--ink);
+  }
+
+  /* Gradient underline that wipes out from the centre on hover, and sits
+     permanently under the current page. */
+  .nav__list a:not(.nav__cv)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--c1), var(--c4));
+    transform: scaleX(0);
+    transition: transform 0.28s var(--ease);
+  }
+
+  .nav__list a:not(.nav__cv):hover::after,
+  .nav__list a[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  .nav__list a[aria-current='page'] {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .nav__cv {
+    border: 1px solid var(--rule);
+    border-radius: 7px;
+    padding: 0.22rem 0.68rem;
+    transition:
+      border-color 0.18s var(--ease),
+      color 0.18s var(--ease),
+      background-color 0.18s var(--ease);
+  }
+
+  .nav__cv:hover {
+    border-color: var(--accent);
+    background: var(--accent-wash);
+    color: var(--accent) !important;
+  }
+
+  @media (max-width: 460px) {
+    .nav__list {
+      gap: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,512 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import WorkCard from '../components/WorkCard.astro';
+import {
+  site,
+  experience,
+  education,
+  awards,
+  publications,
+  glance,
+} from '../data/site';
+
+const work = (await getCollection('work', ({ data }) => data.published)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<Base>
+  <div class="aurora" aria-hidden="true">
+    <span class="aurora__blob aurora__blob--1"></span>
+    <span class="aurora__blob aurora__blob--2"></span>
+    <span class="aurora__blob aurora__blob--3"></span>
+  </div>
+
+  <section class="page hero">
+    <div class="hero__main">
+      <p class="hero__eyebrow" data-reveal="0">{site.location}</p>
+      <h1 data-reveal="1">{site.name}</h1>
+      <p class="hero__tagline" data-reveal="2">{site.tagline}</p>
+      <p class="hero__blurb" data-reveal="3">{site.blurb}</p>
+      <ul class="hero__links" data-reveal="4">
+        <li><a class="btn btn--primary" href={`mailto:${site.email}`}>Email</a></li>
+        <li><a class="btn" href={site.links.cv}>CV (PDF)</a></li>
+        <li><a class="btn" href={site.links.github}>GitHub</a></li>
+        <li><a class="btn" href={site.links.linkedin}>LinkedIn</a></li>
+        {
+          site.links.scholar && (
+            <li>
+              <a class="btn" href={site.links.scholar}>
+                Scholar
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+
+    <aside class="glance" aria-label="At a glance" data-reveal="2">
+      {
+        glance.map((item, i) => (
+          <div class="glance__item" style={`--hue: var(--c${i + 1})`}>
+            <div class="glance__stat">{item.stat}</div>
+            <div>
+              <div class="glance__label">{item.label}</div>
+              <div class="glance__detail">{item.detail}</div>
+            </div>
+          </div>
+        ))
+      }
+    </aside>
+  </section>
+
+  <section class="page section">
+    <h2 class="section__head" data-reveal="0">Selected work</h2>
+    <div class="cards">
+      {
+        work.map((entry, i) => (
+          <WorkCard entry={entry} accent={`var(--c${(i % 4) + 1})`} step={i} />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="page section">
+    <h2 class="section__head" data-reveal="0">Research</h2>
+    <ol class="pubs">
+      {
+        publications.map((pub, i) => (
+          <li class="pub" data-reveal={i + 1} style={`--hue: var(--c${i + 1})`}>
+            <h3 class="pub__title">
+              {pub.url ? <a href={pub.url}>{pub.title}</a> : pub.title}
+            </h3>
+            <p class="pub__meta">
+              {pub.authors} · <em>{pub.venue}</em> · {pub.year}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="more"><a href="/research/">Abstracts and full list →</a></p>
+  </section>
+
+  <section class="page section">
+    <h2 class="section__head" data-reveal="0">Experience</h2>
+    {
+      experience.map((job, i) => (
+        <article class="row" data-reveal={i + 1}>
+          <div class="row__aside">{job.period}</div>
+          <div class="row__body">
+            <h3>
+              {job.role} <span class="row__org">· {job.org}</span>
+            </h3>
+            <ul class="row__points">
+              {job.points.map((point) => (
+                <li>{point}</li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="page section">
+    <h2 class="section__head" data-reveal="0">Awards & distinctions</h2>
+    {
+      awards.map((award, i) => (
+        <article class="row" data-reveal={i + 1} style={`--hue: var(--c${i + 1})`}>
+          <div class="row__aside">{award.year}</div>
+          <div class="row__body">
+            <h3>{award.title}</h3>
+            <p class="row__detail">{award.detail}</p>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="page section">
+    <h2 class="section__head" data-reveal="0">Education</h2>
+    {
+      education.map((item, i) => (
+        <article class="row" data-reveal={i + 1}>
+          <div class="row__aside">{item.period}</div>
+          <div class="row__body">
+            <h3>{item.school}</h3>
+            <p class="row__detail">
+              {item.qualification} · {item.detail}
+            </p>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+</Base>
+
+<style>
+  /* Slow-drifting colour wash behind the hero. Heavily blurred and low
+     opacity so it reads as tinted paper, not as a graphic. */
+  .aurora {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 620px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, #000 35%, transparent 100%);
+  }
+
+  .aurora__blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.4;
+    will-change: transform;
+  }
+
+  .aurora__blob--1 {
+    width: 480px;
+    height: 480px;
+    top: -170px;
+    left: -90px;
+    background: var(--c1);
+    animation: drift 24s var(--ease) infinite;
+  }
+
+  .aurora__blob--2 {
+    width: 420px;
+    height: 420px;
+    top: -120px;
+    right: 8%;
+    background: var(--c2);
+    opacity: 0.3;
+    animation: drift 30s var(--ease) infinite reverse;
+  }
+
+  .aurora__blob--3 {
+    width: 360px;
+    height: 360px;
+    top: 150px;
+    left: 42%;
+    background: var(--c4);
+    opacity: 0.22;
+    animation: drift 36s var(--ease) infinite;
+  }
+
+  /* Two columns so the right half isn't dead space. Below 900px the
+     glance panel drops under the intro. */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+    padding-block: clamp(3rem, 8vw, 5rem) clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .hero__eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 0.9rem;
+  }
+
+  .hero__tagline {
+    position: relative;
+    font-family: var(--serif);
+    font-size: clamp(1.2rem, 1rem + 0.85vw, 1.6rem);
+    line-height: 1.38;
+    color: var(--ink);
+    margin: 1.15rem 0 1.35rem;
+    max-width: 32ch;
+    padding-left: 1.1rem;
+  }
+
+  /* Gradient rule instead of a flat accent bar. */
+  .hero__tagline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    width: 3px;
+    border-radius: 3px;
+    background: linear-gradient(to bottom, var(--c1), var(--c2), var(--c4));
+  }
+
+  .hero__blurb {
+    color: var(--ink-soft);
+    max-width: 58ch;
+    font-size: 0.98rem;
+  }
+
+  .hero__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+    margin: 1.9rem 0 0;
+    padding: 0;
+  }
+
+  .btn {
+    display: inline-block;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--ink-soft);
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 0.4rem 0.9rem;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  /* Animated gradient fill — the one overtly showy element on the page,
+     and it sits on the single thing a reader is most likely to click. */
+  .btn--primary {
+    background: linear-gradient(
+      100deg,
+      var(--c1),
+      var(--c4),
+      var(--c2),
+      var(--c1)
+    );
+    background-size: 200% auto;
+    border-color: transparent;
+    color: #fff;
+    animation: sheen 7s linear infinite;
+    box-shadow: 0 6px 18px -8px var(--c1);
+  }
+
+  .btn--primary:hover {
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 10px 24px -8px var(--c4);
+  }
+
+  /* At-a-glance panel */
+  .glance {
+    position: relative;
+    display: grid;
+    gap: 0.2rem;
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 0.7rem 1.4rem;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  /* Gradient cap across the top of the panel. */
+  .glance::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(
+      90deg,
+      var(--c1),
+      var(--c2),
+      var(--c3),
+      var(--c4)
+    );
+  }
+
+  .glance__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3.4rem 1fr;
+    gap: 0.9rem;
+    align-items: baseline;
+    padding: 0.95rem 0.7rem;
+    margin-inline: -0.7rem;
+    border-top: 1px solid var(--rule);
+    border-radius: 9px;
+    transition: background-color 0.22s var(--ease);
+  }
+
+  .glance__item:first-child {
+    border-top: 0;
+  }
+
+  /* Each row tints toward its own hue on hover. */
+  .glance__item:hover {
+    background: color-mix(in srgb, var(--hue) 7%, transparent);
+  }
+
+  .glance__stat {
+    font-family: var(--serif);
+    font-size: 1.65rem;
+    font-weight: 600;
+    color: var(--hue, var(--accent));
+    letter-spacing: -0.03em;
+    line-height: 1;
+    transition: transform 0.22s var(--ease);
+  }
+
+  .glance__item:hover .glance__stat {
+    transform: scale(1.12);
+  }
+
+  .glance__label {
+    font-size: 0.89rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+
+  .glance__detail {
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+    margin-top: 0.12rem;
+  }
+
+  /* Two columns, not auto-fit: four cards made an orphan in a 3-up grid. */
+  .cards {
+    display: grid;
+    gap: 1.15rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Numbered, with the counter in the accent — reads as a publication
+     list rather than three stacked grey paragraphs. */
+  .pubs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    counter-reset: pub;
+  }
+
+  .pub {
+    counter-increment: pub;
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    gap: 0 0.9rem;
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .pub:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .pub::before {
+    content: counter(pub, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--hue, var(--accent));
+    padding-top: 0.22rem;
+  }
+
+  /* Both must sit in column 2 — otherwise the meta line wraps back into
+     the narrow counter column on the next implicit row. */
+  .pub__title,
+  .pub__meta {
+    grid-column: 2;
+  }
+
+  .pub__title {
+    font-size: 1.05rem;
+    margin: 0 0 0.25rem;
+  }
+
+  .pub__meta {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--ink-faint);
+    max-width: none;
+  }
+
+  .more {
+    margin: 1.75rem 0 0;
+    font-size: 0.92rem;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 0 2.25rem;
+    padding-block: 1.35rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .row:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .row__aside {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ink-faint);
+    padding-top: 0.28rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .row__body h3 {
+    font-size: 1.03rem;
+    margin: 0 0 0.35rem;
+  }
+
+  .row__org {
+    font-family: var(--sans);
+    font-weight: 400;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  .row__points {
+    margin: 0;
+    padding-left: 1.05rem;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  .row__points li {
+    margin-bottom: 0.35rem;
+    max-width: var(--measure);
+  }
+
+  .row__detail {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
+    .row__aside {
+      order: 2;
+      padding-top: 0.4rem;
+    }
+  }
+</style>

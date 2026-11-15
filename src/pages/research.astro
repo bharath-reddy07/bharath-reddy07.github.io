@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+import { publications, site } from '../data/site';
+---
+
+<Base
+  title="Research"
+  description="Publications on computer vision for microscopic particle analysis, and patented work on automated fabric analysis."
+>
+  <section class="page head">
+    <h1>Research</h1>
+    <p class="lede">
+      My research has been in applied computer vision — measuring physical things
+      from images under conditions that refuse to cooperate. It is also where I
+      learned that the model is seldom the part that decides whether a system
+      works.
+    </p>
+  </section>
+
+  <section class="page section">
+    <h2 class="section__head" data-reveal="0">Publications</h2>
+    <ol class="pubs">
+      {
+        publications.map((pub, i) => (
+          <li class="pub" data-reveal={i + 1} style={`--hue: var(--c${i + 1})`}>
+            <h3 class="pub__title">
+              {pub.url ? <a href={pub.url}>{pub.title}</a> : pub.title}
+            </h3>
+            <p class="pub__meta">
+              {pub.authors} · <em>{pub.venue}</em> · {pub.year}
+            </p>
+            <p class="pub__summary">{pub.summary}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="page section">
+    <h2 class="section__head" data-reveal="0">Patents</h2>
+    <div class="patent" data-reveal="1">
+      <h3>DigiPick — AI-powered pick-reader</h3>
+      <p class="pub__meta">
+        Design patents granted: Germany, United Kingdom, India · Utility patent
+        pending: India
+      </p>
+      <p class="pub__summary">
+        An end-to-end computer-vision and machine-learning pipeline on
+        open-source hardware that analyses fabric warp and weft density and
+        classifies material in real time. <a href="/work/digipick/"
+          >Read the case study →</a
+        >
+      </p>
+    </div>
+  </section>
+
+  <section class="page section">
+    <h2 class="section__head" data-reveal="0">Interests</h2>
+    <p data-reveal="1">
+      I am most interested in the infrastructure that intelligent systems depend
+      on rather than the models themselves: information retrieval over large and
+      changing datasets, the interfaces through which models are permitted to
+      query enterprise data, and how any of this is evaluated once it leaves a
+      controlled environment.
+    </p>
+    <p>
+      I am currently applying to master's programmes in computer science. If
+      you are working on something in this area, I would be glad to hear from
+      you — <a href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .head {
+    padding-block: clamp(2.5rem, 6vw, 4rem) 2rem;
+  }
+
+  .head h1 {
+    margin-bottom: 0.9rem;
+  }
+
+  .pubs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  /* Each entry becomes a tinted card with its own hue, matching the
+     colour language of the work cards on the other pages. */
+  .pub {
+    position: relative;
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--hue);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 0.22s var(--ease),
+      box-shadow 0.22s var(--ease);
+  }
+
+  .pub:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 34px -16px color-mix(in srgb, var(--hue) 55%, transparent);
+  }
+
+  .pub__title {
+    font-size: 1.08rem;
+    margin: 0 0 0.3rem;
+    color: var(--hue);
+  }
+
+  .pub__meta {
+    margin: 0 0 0.6rem;
+    font-size: 0.88rem;
+    color: var(--ink-faint);
+  }
+
+  .pub__summary {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  .patent {
+    background: linear-gradient(
+      135deg,
+      var(--c4-wash),
+      color-mix(in srgb, var(--c1-wash) 70%, transparent)
+    );
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 1.5rem 1.65rem;
+  }
+
+  .patent h3 {
+    font-size: 1.14rem;
+    margin: 0 0 0.3rem;
+    color: var(--c4);
+  }
+</style>

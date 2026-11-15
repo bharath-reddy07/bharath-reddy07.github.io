@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Dynamic analysis of microscopic particles · Bharath Reddy</title><meta name="description" content="Measuring size, shape, and anomalies in particles moving along a conveyor at 60 frames per second — the research that produced two publications and taught me that the model is rarely the bottleneck."><link rel="canonical" href="https://bharath-reddy07.github.io/work/particle-analysis/"><meta property="og:type" content="website"><meta property="og:title" content="Dynamic analysis of microscopic particles · Bharath Reddy"><meta property="og:description" content="Measuring size, shape, and anomalies in particles moving along a conveyor at 60 frames per second — the research that produced two publications and taught me that the model is rarely the bottleneck."><meta property="og:url" content="https://bharath-reddy07.github.io/work/particle-analysis/"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta name="generator" content="Astro v7.4.12"><script>
+      document.documentElement.classList.add('js');
+    </script><link rel="stylesheet" href="/_astro/Base.BNNwPopa.css"><style>.head[data-astro-cid-nkggbshs]{padding-block:2.25rem}.body[data-astro-cid-nkggbshs]{padding-top:2.25rem}.body[data-astro-cid-nkggbshs] .prose>h2:first-child{margin-top:0}.head__back[data-astro-cid-nkggbshs]{margin-bottom:1.5rem;font-size:.86rem}.head__back[data-astro-cid-nkggbshs] a[data-astro-cid-nkggbshs]{color:var(--ink-faint);text-decoration:none}.head__back[data-astro-cid-nkggbshs] a[data-astro-cid-nkggbshs]:hover{color:var(--accent)}.head[data-astro-cid-nkggbshs]{position:relative}.head[data-astro-cid-nkggbshs]:after{content:"";background:radial-gradient(70% 100% at 18% 0%, color-mix(in srgb, var(--page-accent) 15%, transparent), transparent 70%);z-index:-1;pointer-events:none;height:330px;position:absolute;inset:-3rem 0 auto}.head[data-astro-cid-nkggbshs] h1[data-astro-cid-nkggbshs]{color:var(--page-accent)}.head__summary[data-astro-cid-nkggbshs]{color:var(--ink-soft);max-width:64ch;margin:1rem 0 1.1rem;font-size:1.08rem}.head__meta[data-astro-cid-nkggbshs]{color:var(--ink-faint);flex-wrap:wrap;align-items:center;gap:.6rem;margin:0 0 1rem;font-size:.87rem;display:flex}.head__org[data-astro-cid-nkggbshs]{color:var(--ink);background:var(--bg-sunken);border:1px solid var(--rule-strong);border-radius:999px;padding:.14rem .6rem;font-size:.72rem;font-weight:650}.head__tags[data-astro-cid-nkggbshs]{flex-wrap:wrap;gap:.35rem;margin:0;padding:0;list-style:none;display:flex}.head__tags[data-astro-cid-nkggbshs] li[data-astro-cid-nkggbshs]{color:var(--ink-faint);border:1px solid var(--rule);border-radius:999px;padding:.14rem .55rem;font-size:.74rem}.head__links[data-astro-cid-nkggbshs]{flex-wrap:wrap;gap:.5rem 1.25rem;margin:1.25rem 0 0;padding:0;font-size:.92rem;list-style:none;display:flex}
+</style></head><body><a class="skip" href="#main">Skip to content</a><header class="nav" data-astro-cid-wpvy4v7s><div class="page nav__inner" data-astro-cid-wpvy4v7s><a class="nav__brand" href="/" data-astro-cid-wpvy4v7s>Bharath Reddy</a><nav aria-label="Primary" data-astro-cid-wpvy4v7s><ul class="nav__list" data-astro-cid-wpvy4v7s><li data-astro-cid-wpvy4v7s><a href="/" data-astro-cid-wpvy4v7s>Home</a></li><li data-astro-cid-wpvy4v7s><a href="/work/" aria-current="page" data-astro-cid-wpvy4v7s>Work</a></li><li data-astro-cid-wpvy4v7s><a href="/research/" data-astro-cid-wpvy4v7s>Research</a></li></ul></nav></div></header><main id="main"><article style="--page-accent: var(--c3)" data-astro-cid-nkggbshs><header class="page head" data-astro-cid-nkggbshs><p class="head__back" data-astro-cid-nkggbshs><a href="/work/" data-astro-cid-nkggbshs>← All work</a></p><h1 data-astro-cid-nkggbshs>Dynamic analysis of microscopic particles</h1><p class="head__summary" data-astro-cid-nkggbshs>Measuring size, shape, and anomalies in particles moving along a conveyor at 60 frames per second — the research that produced two publications and taught me that the model is rarely the bottleneck.</p><p class="head__meta" data-astro-cid-nkggbshs><span class="head__org" data-astro-cid-nkggbshs>RV College of Engineering</span>Researcher, RV College of Engineering · 2023 — 2024</p><ul class="head__tags" data-astro-cid-nkggbshs><li data-astro-cid-nkggbshs>Computer vision</li><li data-astro-cid-nkggbshs>Image analysis</li><li data-astro-cid-nkggbshs>Research</li><li data-astro-cid-nkggbshs>Publications</li></ul></header><div class="page section body" data-astro-cid-nkggbshs><div class="prose" data-astro-cid-nkggbshs><h2 id="the-problem">The problem</h2>
+<p>Particle characterisation is conventionally done with laser diffraction and similar
+instrumentation. We asked whether optical imaging could recover size, shape, and anomaly
+information from particles <em>in motion</em>, captured at 60 frames per second as they travelled
+along a conveyor.</p>
+<p>The appeal of imaging is that it measures shape directly rather than inferring it from a
+scattering model. The difficulty is everything else.</p>
+<h2 id="why-it-was-hard">Why it was hard</h2>
+<p>Classroom computer vision gives you clean, static, well-lit inputs. This gave us none of
+those:</p>
+<ul>
+<li><strong>Lighting was never uniform</strong> across the field of view, and it drifted over a session.</li>
+<li><strong>Motion blur</strong> scaled with particle velocity, so the same particle imaged twice was
+not the same measurement twice.</li>
+<li><strong>Orientation was uncontrolled.</strong> A flat particle seen edge-on and face-on produces
+wildly different projections, and nothing in a single frame tells you which you got.</li>
+<li><strong>Particles touched and overlapped</strong>, and segmenting a cluster into constituents is a
+guess dressed up as a measurement.</li>
+<li><strong>Ground truth was scarce</strong>, which is the real problem — without it, you cannot tell a
+genuine anomaly from a processing artefact.</li>
+</ul>
+<h2 id="approach">Approach</h2>
+<p>Most of the work went into the parts that are not the model: controlling acquisition so
+the inputs were comparable, normalising for illumination before anything downstream ran,
+and treating a particle’s trajectory across frames as the measurement unit rather than
+any single frame. Tracking a particle through several frames gives several views of it,
+which does more for orientation ambiguity than any amount of per-frame cleverness.</p>
+<p>Evaluation had to be built as deliberately as the pipeline. Where ground truth was thin,
+we leaned on consistency checks — does the same particle measured across its trajectory
+agree with itself — as a proxy for correctness.</p>
+<h2 id="outcome">Outcome</h2>
+<p>Two peer-reviewed publications:</p>
+<ol>
+<li><strong>Micro-Particle Anomaly Detection &amp; Shape Classification</strong> — IEEE Conference, Vellore.
+The foundational work on identifying anomalies and classifying shape.</li>
+<li><strong>Dynamic Image Analysis of Microscopic Particles</strong> — Springer CCIS, MIND Conference.
+The follow-up extending the approach to particles in motion.</li>
+</ol>
+<h2 id="what-i-took-from-it">What I took from it</h2>
+<p>This project is the reason I think about deployment conditions before architecture. The
+effectiveness of a machine learning system cannot be assessed through the performance of
+its model alone — data acquisition, hardware limits, throughput, and the conditions it
+will actually run under decide whether it works in practice. We could improve a
+classifier for a week and get less than we got from fixing the illumination.</p>
+<p>It was also my first experience of a problem with no predetermined solution, where the
+work was deciding what the question was.</p>
+<!--
+TODO — add media:
+  Drop images in /public/images/particle/ and uncomment. Good candidates:
+  the rig, a raw frame, the same frame after segmentation, a shape-classification
+  montage. One honest failure case is worth more than three successes.
+
+<figure>
+  <img src="/images/particle/segmentation.jpg" alt="Raw conveyor frame beside its segmentation output" />
+  <figcaption>Raw capture (left) and segmentation output (right).</figcaption>
+</figure>
+-->
+</div></div></article></main><footer class="foot" data-astro-cid-jo6i4kqk><div class="page foot__inner" data-astro-cid-jo6i4kqk><p class="foot__note" data-astro-cid-jo6i4kqk>Bharath Reddy · Bangalore, India · <a href="mailto:dkbharathreddy9@gmail.com" data-astro-cid-jo6i4kqk>dkbharathreddy9@gmail.com</a></p><p class="foot__note foot__meta" data-astro-cid-jo6i4kqk><a href="https://github.com/bharath-reddy07" data-astro-cid-jo6i4kqk>GitHub</a><span aria-hidden="true" data-astro-cid-jo6i4kqk>·</span><a href="https://www.linkedin.com/in/d-k-bharath-reddy-bb2b4a247" data-astro-cid-jo6i4kqk>LinkedIn</a><span aria-hidden="true" data-astro-cid-jo6i4kqk>·</span><span data-astro-cid-jo6i4kqk>© 2026</span></p></div></footer><script type="module">var e=document.querySelectorAll(`[data-reveal]`);if(window.matchMedia(`(prefers-reduced-motion: reduce)`).matches||!(`IntersectionObserver`in window))e.forEach(e=>e.classList.add(`is-in`));else{let t=new IntersectionObserver(e=>{e.forEach(e=>{if(!e.isIntersecting)return;let n=e.target,r=Number(n.dataset.reveal)||0;n.style.setProperty(`--reveal-delay`,`${r*80}ms`),n.classList.add(`is-in`),t.unobserve(n)})},{rootMargin:`0px 0px -8% 0px`,threshold:.08});e.forEach(e=>t.observe(e))}</script></body></html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>An MCP server for enterprise analytics · Bharath Reddy</title><meta name="description" content="Designing the interface through which AI applications query a production analytics platform — without losing accuracy, permissions, or predictability."><link rel="canonical" href="https://bharath-reddy07.github.io/work/ace-mcp-server/"><meta property="og:type" content="website"><meta property="og:title" content="An MCP server for enterprise analytics · Bharath Reddy"><meta property="og:description" content="Designing the interface through which AI applications query a production analytics platform — without losing accuracy, permissions, or predictability."><meta property="og:url" content="https://bharath-reddy07.github.io/work/ace-mcp-server/"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta name="generator" content="Astro v7.4.12"><script>
+      document.documentElement.classList.add('js');
+    </script><link rel="stylesheet" href="/_astro/Base.BNNwPopa.css"><style>.head[data-astro-cid-nkggbshs]{padding-block:2.25rem}.body[data-astro-cid-nkggbshs]{padding-top:2.25rem}.body[data-astro-cid-nkggbshs] .prose>h2:first-child{margin-top:0}.head__back[data-astro-cid-nkggbshs]{margin-bottom:1.5rem;font-size:.86rem}.head__back[data-astro-cid-nkggbshs] a[data-astro-cid-nkggbshs]{color:var(--ink-faint);text-decoration:none}.head__back[data-astro-cid-nkggbshs] a[data-astro-cid-nkggbshs]:hover{color:var(--accent)}.head[data-astro-cid-nkggbshs]{position:relative}.head[data-astro-cid-nkggbshs]:after{content:"";background:radial-gradient(70% 100% at 18% 0%, color-mix(in srgb, var(--page-accent) 15%, transparent), transparent 70%);z-index:-1;pointer-events:none;height:330px;position:absolute;inset:-3rem 0 auto}.head[data-astro-cid-nkggbshs] h1[data-astro-cid-nkggbshs]{color:var(--page-accent)}.head__summary[data-astro-cid-nkggbshs]{color:var(--ink-soft);max-width:64ch;margin:1rem 0 1.1rem;font-size:1.08rem}.head__meta[data-astro-cid-nkggbshs]{color:var(--ink-faint);flex-wrap:wrap;align-items:center;gap:.6rem;margin:0 0 1rem;font-size:.87rem;display:flex}.head__org[data-astro-cid-nkggbshs]{color:var(--ink);background:var(--bg-sunken);border:1px solid var(--rule-strong);border-radius:999px;padding:.14rem .6rem;font-size:.72rem;font-weight:650}.head__tags[data-astro-cid-nkggbshs]{flex-wrap:wrap;gap:.35rem;margin:0;padding:0;list-style:none;display:flex}.head__tags[data-astro-cid-nkggbshs] li[data-astro-cid-nkggbshs]{color:var(--ink-faint);border:1px solid var(--rule);border-radius:999px;padding:.14rem .55rem;font-size:.74rem}.head__links[data-astro-cid-nkggbshs]{flex-wrap:wrap;gap:.5rem 1.25rem;margin:1.25rem 0 0;padding:0;font-size:.92rem;list-style:none;display:flex}
+</style></head><body><a class="skip" href="#main">Skip to content</a><header class="nav" data-astro-cid-wpvy4v7s><div class="page nav__inner" data-astro-cid-wpvy4v7s><a class="nav__brand" href="/" data-astro-cid-wpvy4v7s>Bharath Reddy</a><nav aria-label="Primary" data-astro-cid-wpvy4v7s><ul class="nav__list" data-astro-cid-wpvy4v7s><li data-astro-cid-wpvy4v7s><a href="/" data-astro-cid-wpvy4v7s>Home</a></li><li data-astro-cid-wpvy4v7s><a href="/work/" aria-current="page" data-astro-cid-wpvy4v7s>Work</a></li><li data-astro-cid-wpvy4v7s><a href="/research/" data-astro-cid-wpvy4v7s>Research</a></li></ul></nav></div></header><main id="main"><article style="--page-accent: var(--c1)" data-astro-cid-nkggbshs><header class="page head" data-astro-cid-nkggbshs><p class="head__back" data-astro-cid-nkggbshs><a href="/work/" data-astro-cid-nkggbshs>← All work</a></p><h1 data-astro-cid-nkggbshs>An MCP server for enterprise analytics</h1><p class="head__summary" data-astro-cid-nkggbshs>Designing the interface through which AI applications query a production analytics platform — without losing accuracy, permissions, or predictability.</p><p class="head__meta" data-astro-cid-nkggbshs><span class="head__org" data-astro-cid-nkggbshs>RingCentral</span>Software Development Engineer, RingCentral · 2025 — present</p><ul class="head__tags" data-astro-cid-nkggbshs><li data-astro-cid-nkggbshs>Model Context Protocol</li><li data-astro-cid-nkggbshs>TypeScript</li><li data-astro-cid-nkggbshs>Python</li><li data-astro-cid-nkggbshs>LLM tooling</li><li data-astro-cid-nkggbshs>API design</li></ul></header><div class="page section body" data-astro-cid-nkggbshs><div class="prose" data-astro-cid-nkggbshs><h2 id="the-problem">The problem</h2>
+<p>An analytics platform already had a capable API. The question was what happens when
+the caller is a language model rather than a dashboard.</p>
+<p>A dashboard asks precise questions. It knows which metric it wants, over which window,
+filtered by which entity, because a human chose those things from a menu. A model asks
+broad ones — <em>“how did the enterprise team do last quarter compared to the one before”</em> —
+and expects something coherent back. Between those two sits a translation problem, and
+it is not solved by exposing the existing endpoints and hoping.</p>
+<p>Three things make it hard:</p>
+<ul>
+<li><strong>Accuracy is unforgiving.</strong> A dashboard that renders a wrong number looks broken. A
+model that receives a wrong number states it as fact, fluently, with no visible seam.</li>
+<li><strong>Permissions cannot be advisory.</strong> The caller is a model acting for a user, and that
+user’s organisational access has to hold at every layer. The model cannot be trusted
+to enforce it, so the interface must.</li>
+<li><strong>Behaviour has to be predictable.</strong> The same question asked twice should not resolve
+to two different operations.</li>
+</ul>
+<h2 id="approach">Approach</h2>
+<p>I worked on this from the early stages of the server, across both the AI-facing surface
+and the analytics service beneath it.</p>
+<p><strong>Query contracts over raw endpoints.</strong> Rather than mapping tools one-to-one onto
+existing APIs, the tools expose a constrained vocabulary of analytical operations —
+metric, dimension, filter, window, comparison. The model composes within that vocabulary
+instead of inventing request shapes. Anything outside it fails loudly rather than
+silently returning something plausible.</p>
+<p><strong>Validation at the boundary.</strong> Every tool input is schema-validated before it reaches
+the analytics layer. The useful property is not that invalid calls are rejected — it is
+that the rejection carries a message specific enough for the model to correct itself on
+the next turn, which turns a dead end into a retry.</p>
+<p><strong>Entity resolution as an explicit step.</strong> Users refer to teams and people the way people
+do: partially, informally, ambiguously. Resolving <em>“the enterprise team”</em> to a concrete,
+permission-checked identifier is its own operation with its own failure modes, rather
+than something guessed inside a larger query.</p>
+<h2 id="what-i-took-from-it">What I took from it</h2>
+<p>The interesting constraint was not the model. It was that an interface designed for
+machine callers has to make its own guarantees legible — what it will refuse, what it
+has assumed, what it could not resolve. A conventional API can leave that to its
+documentation and its human integrator. This one cannot, because the integrator is
+reading at inference time and will paper over any gap with fluent prose.</p>
+<p>That is the thread running from here back to the retrieval work below, and forward into
+what I want to study: an intelligent application is only as dependable as the layer that
+decides what information it is allowed to see.</p>
+<!--
+NOTE TO SELF — before publishing:
+  · Keep this free of internal architecture diagrams, product UI, customer data,
+    and unreleased feature names. Everything above describes technique, not internals.
+  · If unsure whether a detail is public, leave it out. The case study is already
+    strong without it.
+-->
+</div></div></article></main><footer class="foot" data-astro-cid-jo6i4kqk><div class="page foot__inner" data-astro-cid-jo6i4kqk><p class="foot__note" data-astro-cid-jo6i4kqk>Bharath Reddy · Bangalore, India · <a href="mailto:dkbharathreddy9@gmail.com" data-astro-cid-jo6i4kqk>dkbharathreddy9@gmail.com</a></p><p class="foot__note foot__meta" data-astro-cid-jo6i4kqk><a href="https://github.com/bharath-reddy07" data-astro-cid-jo6i4kqk>GitHub</a><span aria-hidden="true" data-astro-cid-jo6i4kqk>·</span><a href="https://www.linkedin.com/in/d-k-bharath-reddy-bb2b4a247" data-astro-cid-jo6i4kqk>LinkedIn</a><span aria-hidden="true" data-astro-cid-jo6i4kqk>·</span><span data-astro-cid-jo6i4kqk>© 2026</span></p></div></footer><script type="module">var e=document.querySelectorAll(`[data-reveal]`);if(window.matchMedia(`(prefers-reduced-motion: reduce)`).matches||!(`IntersectionObserver`in window))e.forEach(e=>e.classList.add(`is-in`));else{let t=new IntersectionObserver(e=>{e.forEach(e=>{if(!e.isIntersecting)return;let n=e.target,r=Number(n.dataset.reveal)||0;n.style.setProperty(`--reveal-delay`,`${r*80}ms`),n.classList.add(`is-in`),t.unobserve(n)})},{rootMargin:`0px 0px -8% 0px`,threshold:.08});e.forEach(e=>t.observe(e))}</script></body></html>

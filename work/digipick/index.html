@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>DigiPick: reading fabric by machine · Bharath Reddy</title><meta name="description" content="A computer-vision pick-reader that counts warp and weft threads and classifies fabric material on open-source hardware. Design patents granted in Germany, the UK, and India."><link rel="canonical" href="https://bharath-reddy07.github.io/work/digipick/"><meta property="og:type" content="website"><meta property="og:title" content="DigiPick: reading fabric by machine · Bharath Reddy"><meta property="og:description" content="A computer-vision pick-reader that counts warp and weft threads and classifies fabric material on open-source hardware. Design patents granted in Germany, the UK, and India."><meta property="og:url" content="https://bharath-reddy07.github.io/work/digipick/"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta name="generator" content="Astro v7.4.12"><script>
+      document.documentElement.classList.add('js');
+    </script><link rel="stylesheet" href="/_astro/Base.BNNwPopa.css"><style>.head[data-astro-cid-nkggbshs]{padding-block:2.25rem}.body[data-astro-cid-nkggbshs]{padding-top:2.25rem}.body[data-astro-cid-nkggbshs] .prose>h2:first-child{margin-top:0}.head__back[data-astro-cid-nkggbshs]{margin-bottom:1.5rem;font-size:.86rem}.head__back[data-astro-cid-nkggbshs] a[data-astro-cid-nkggbshs]{color:var(--ink-faint);text-decoration:none}.head__back[data-astro-cid-nkggbshs] a[data-astro-cid-nkggbshs]:hover{color:var(--accent)}.head[data-astro-cid-nkggbshs]{position:relative}.head[data-astro-cid-nkggbshs]:after{content:"";background:radial-gradient(70% 100% at 18% 0%, color-mix(in srgb, var(--page-accent) 15%, transparent), transparent 70%);z-index:-1;pointer-events:none;height:330px;position:absolute;inset:-3rem 0 auto}.head[data-astro-cid-nkggbshs] h1[data-astro-cid-nkggbshs]{color:var(--page-accent)}.head__summary[data-astro-cid-nkggbshs]{color:var(--ink-soft);max-width:64ch;margin:1rem 0 1.1rem;font-size:1.08rem}.head__meta[data-astro-cid-nkggbshs]{color:var(--ink-faint);flex-wrap:wrap;align-items:center;gap:.6rem;margin:0 0 1rem;font-size:.87rem;display:flex}.head__org[data-astro-cid-nkggbshs]{color:var(--ink);background:var(--bg-sunken);border:1px solid var(--rule-strong);border-radius:999px;padding:.14rem .6rem;font-size:.72rem;font-weight:650}.head__tags[data-astro-cid-nkggbshs]{flex-wrap:wrap;gap:.35rem;margin:0;padding:0;list-style:none;display:flex}.head__tags[data-astro-cid-nkggbshs] li[data-astro-cid-nkggbshs]{color:var(--ink-faint);border:1px solid var(--rule);border-radius:999px;padding:.14rem .55rem;font-size:.74rem}.head__links[data-astro-cid-nkggbshs]{flex-wrap:wrap;gap:.5rem 1.25rem;margin:1.25rem 0 0;padding:0;font-size:.92rem;list-style:none;display:flex}
+</style></head><body><a class="skip" href="#main">Skip to content</a><header class="nav" data-astro-cid-wpvy4v7s><div class="page nav__inner" data-astro-cid-wpvy4v7s><a class="nav__brand" href="/" data-astro-cid-wpvy4v7s>Bharath Reddy</a><nav aria-label="Primary" data-astro-cid-wpvy4v7s><ul class="nav__list" data-astro-cid-wpvy4v7s><li data-astro-cid-wpvy4v7s><a href="/" data-astro-cid-wpvy4v7s>Home</a></li><li data-astro-cid-wpvy4v7s><a href="/work/" aria-current="page" data-astro-cid-wpvy4v7s>Work</a></li><li data-astro-cid-wpvy4v7s><a href="/research/" data-astro-cid-wpvy4v7s>Research</a></li></ul></nav></div></header><main id="main"><article style="--page-accent: var(--c4)" data-astro-cid-nkggbshs><header class="page head" data-astro-cid-nkggbshs><p class="head__back" data-astro-cid-nkggbshs><a href="/work/" data-astro-cid-nkggbshs>← All work</a></p><h1 data-astro-cid-nkggbshs>DigiPick: reading fabric by machine</h1><p class="head__summary" data-astro-cid-nkggbshs>A computer-vision pick-reader that counts warp and weft threads and classifies fabric material on open-source hardware. Design patents granted in Germany, the UK, and India.</p><p class="head__meta" data-astro-cid-nkggbshs><span class="head__org" data-astro-cid-nkggbshs>RVCE × Paramount Instruments</span>CSE Department project with Paramount Instruments, RV College of Engineering · 2023 — 2025</p><ul class="head__tags" data-astro-cid-nkggbshs><li data-astro-cid-nkggbshs>Computer vision</li><li data-astro-cid-nkggbshs>Machine learning</li><li data-astro-cid-nkggbshs>Embedded</li><li data-astro-cid-nkggbshs>Patent granted</li></ul></header><div class="page section body" data-astro-cid-nkggbshs><div class="prose" data-astro-cid-nkggbshs><h2 id="the-problem">The problem</h2>
+<p>Thread density — the count of warp and weft threads per unit length — is a basic quality
+measure in textiles, and it is still commonly read by hand. An inspector uses a pick
+glass, counts threads in a small window, and multiplies. It is slow, it is tiring, and
+two inspectors do not reliably agree.</p>
+<p>This was the problem that got me interested in computer science as something you <em>build</em>
+with rather than something you study. The gap between “a person squinting through a lens”
+and “a device that reports a number” is not a research gap — it is an engineering one,
+and it was open.</p>
+<h2 id="approach">Approach</h2>
+<p>DigiPick is a camera, a controlled light source, and open-source hardware in an enclosure
+the fabric sits against. I worked on the algorithmic and software side.</p>
+<p><strong>Thread counting is a periodicity problem.</strong> Woven fabric is close to a regular grid, so
+the thread count is essentially the dominant spatial frequency along each axis. That
+framing is far more robust than trying to detect and count individual threads, because it
+degrades gracefully: a few occluded threads perturb the estimate rather than breaking it.</p>
+<p><strong>Material classification is a texture problem.</strong> Two fabrics with identical thread counts
+can be entirely different materials, and the distinguishing signal lives in surface
+texture and fibre appearance rather than geometry — a separate model on separate features.</p>
+<p><strong>Illumination is the whole ballgame.</strong> As with the particle work, the controlled light
+source did more for accuracy than any algorithmic improvement. Weave structure is only
+visible as shadow, so the lighting geometry <em>is</em> the feature extractor.</p>
+<h2 id="outcome">Outcome</h2>
+<ul>
+<li><strong>Design patents granted</strong> in Germany, the United Kingdom, and India.</li>
+<li><strong>Utility patent pending</strong> in India. <!-- TODO: add application number once confirmed --></li>
+<li>A working end-to-end pipeline from capture to classification on open-source hardware.</li>
+</ul>
+<h2 id="what-i-took-from-it">What I took from it</h2>
+<p>Two things. First, that the constraint which matters is rarely the one you expect — we
+spent far longer on the optical path than on the models, and that was the correct
+allocation. Second, that a real deployment has no held-out test set waiting for it. The
+fabric handed to the device is whatever the mill is running that day.</p>
+<!--
+TODO — add media. This page needs a photograph more than any other on the site;
+a granted design patent is a *visual* claim and readers will want to see the thing.
+Drop images in /public/images/digipick/ and uncomment:
+
+<figure>
+  <img src="/images/digipick/device.jpg" alt="The DigiPick enclosure with a fabric sample in place" />
+  <figcaption>The device with a sample in position.</figcaption>
+</figure>
+-->
+</div></div></article></main><footer class="foot" data-astro-cid-jo6i4kqk><div class="page foot__inner" data-astro-cid-jo6i4kqk><p class="foot__note" data-astro-cid-jo6i4kqk>Bharath Reddy · Bangalore, India · <a href="mailto:dkbharathreddy9@gmail.com" data-astro-cid-jo6i4kqk>dkbharathreddy9@gmail.com</a></p><p class="foot__note foot__meta" data-astro-cid-jo6i4kqk><a href="https://github.com/bharath-reddy07" data-astro-cid-jo6i4kqk>GitHub</a><span aria-hidden="true" data-astro-cid-jo6i4kqk>·</span><a href="https://www.linkedin.com/in/d-k-bharath-reddy-bb2b4a247" data-astro-cid-jo6i4kqk>LinkedIn</a><span aria-hidden="true" data-astro-cid-jo6i4kqk>·</span><span data-astro-cid-jo6i4kqk>© 2026</span></p></div></footer><script type="module">var e=document.querySelectorAll(`[data-reveal]`);if(window.matchMedia(`(prefers-reduced-motion: reduce)`).matches||!(`IntersectionObserver`in window))e.forEach(e=>e.classList.add(`is-in`));else{let t=new IntersectionObserver(e=>{e.forEach(e=>{if(!e.isIntersecting)return;let n=e.target,r=Number(n.dataset.reveal)||0;n.style.setProperty(`--reveal-delay`,`${r*80}ms`),n.classList.add(`is-in`),t.unobserve(n)})},{rootMargin:`0px 0px -8% 0px`,threshold:.08});e.forEach(e=>t.observe(e))}</script></body></html>

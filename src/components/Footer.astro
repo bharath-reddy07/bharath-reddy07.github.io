@@ -1,5 +1,5 @@
 ---
-import { site } from '../data/site';
+import { site, hasCV } from '../data/site';
 const year = 2026; // bump manually; avoids a build-time-dependent diff
 ---
 
@@ -15,8 +15,14 @@ const year = 2026; // bump manually; avoids a build-time-dependent diff
       <span aria-hidden="true">·</span>
       <a href={site.links.linkedin}>LinkedIn</a>
       <span aria-hidden="true">·</span>
-      <a href={site.links.cv}>CV</a>
-      <span aria-hidden="true">·</span>
+      {
+        hasCV && (
+          <>
+            <a href={site.links.cv}>CV</a>
+            <span aria-hidden="true">·</span>
+          </>
+        )
+      }
       <span>© {year}</span>
     </p>
   </div>

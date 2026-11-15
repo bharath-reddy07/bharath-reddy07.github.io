@@ -3,6 +3,17 @@
  * Edit here, not in the templates.
  */
 
+import { existsSync } from 'node:fs';
+
+/**
+ * Whether a CV is available to link to. Checked at build time against the
+ * actual file, so the links simply don't render when the PDF is absent —
+ * no dead /cv.pdf link, nothing to remember to re-enable.
+ *
+ * Drop a PDF at public/cv.pdf and every CV link reappears on next build.
+ */
+export const hasCV = existsSync('public/cv.pdf');
+
 export const site = {
   name: 'D K Bharath Reddy',
   shortName: 'Bharath Reddy',

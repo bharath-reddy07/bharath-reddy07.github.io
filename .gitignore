@@ -5,3 +5,6 @@ dist/
 .env
 .env.production
 .ca-bundle.pem
+
+# CV is added manually; never commit one containing a home address or phone number.
+public/cv.pdf

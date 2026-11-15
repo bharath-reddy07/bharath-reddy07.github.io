@@ -1,5 +1,5 @@
 ---
-import { site } from '../data/site';
+import { site, hasCV } from '../data/site';
 
 const path = Astro.url.pathname;
 const items = [
@@ -29,9 +29,15 @@ const isActive = (href: string) =>
             </li>
           ))
         }
-        <li>
-          <a class="nav__cv" href={site.links.cv}>CV</a>
-        </li>
+        {
+          hasCV && (
+            <li>
+              <a class="nav__cv" href={site.links.cv}>
+                CV
+              </a>
+            </li>
+          )
+        }
       </ul>
     </nav>
   </div>

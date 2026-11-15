@@ -9,6 +9,7 @@ import {
   awards,
   publications,
   glance,
+  hasCV,
 } from '../data/site';
 
 const work = (await getCollection('work', ({ data }) => data.published)).sort(
@@ -31,7 +32,15 @@ const work = (await getCollection('work', ({ data }) => data.published)).sort(
       <p class="hero__blurb" data-reveal="3">{site.blurb}</p>
       <ul class="hero__links" data-reveal="4">
         <li><a class="btn btn--primary" href={`mailto:${site.email}`}>Email</a></li>
-        <li><a class="btn" href={site.links.cv}>CV (PDF)</a></li>
+        {
+          hasCV && (
+            <li>
+              <a class="btn" href={site.links.cv}>
+                CV (PDF)
+              </a>
+            </li>
+          )
+        }
         <li><a class="btn" href={site.links.github}>GitHub</a></li>
         <li><a class="btn" href={site.links.linkedin}>LinkedIn</a></li>
         {
